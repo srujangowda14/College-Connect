@@ -278,10 +278,35 @@
 }
 .display_blog_main_div_blog_textarea{
     margin-top: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.3);
+    border-radius: 8px;
 }
 .display_blog_main_div_blog_commentsection{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 
+}
+.display_blog_main_div_blog_commentsection_button{
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: none;
+      outline: none;
+      background-color: brown;
+      color: white;
+      border-radius: 5px;
+}
+.display_blog_main_div_blog_commentsection_button:hover{
+    transform: scale(1.05);
+}
+.display_blog_main_div_blog_button_liked{
+    border: none;
+    outline: none;
+    color: black;
+    background-color: brown;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 5px 10px;
 }

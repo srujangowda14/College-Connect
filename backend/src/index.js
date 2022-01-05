@@ -164,7 +164,6 @@ app.post("/SingleQuestion2",(req,res)=>{
 
 app.post("/MyQuestions1",(req,res)=>{
     const {_id}=req.body;
-    console.log(_id);
     QuestionsCollection.find({questionby:_id},(err,retdata)=>{
         if(err){
             console.log(err);
@@ -200,11 +199,26 @@ const blogSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId
     },
     likes:{
-         type: Number,
-         default: 0
+        nooflikes:{
+           type: Number,
+           default: 0
+        },
+        likedby:[
+            {
+                ref:"User",
+                type:mongoose.Schema.Types.ObjectId
+            }
+        ]
     },
-    comments:[{
-        type: String,
+    comments:[
+        {
+            comment:{
+               type:String,
+            },
+            commentby:{
+               ref:"User",
+               type:mongoose.Schema.Types.ObjectId
+        }
     }],
     date:{
         type: Date,
@@ -239,15 +253,35 @@ app.post("/Homepage2",(req,res)=>{
 })
 
 app.post("/DisplayBlogLike",(req,res)=>{
-    const {bid,comment}=req.body;
-    console.log(bid);
-    Blogs.findByIdAndUpdate(bid,{$inc:{likes:1}},(err,blogdata)=>{
+    const {bid,comment,uid}=req.body;
+    console.log(uid);
+    Blogs.findByIdAndUpdate(bid,{$push:{"likes.likedby":uid}},(err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":1}},(err,blogdata)=>{
         if(err){
             console.log(err);
         }else{
             res.send({blogdata:blogdata});
         }
     })
+})
+
+app.post("/DisplayBlogNoofLike",(req,res)=>{
+    const {bid}=req.body;
+    Blogs.findById(bid,{"likes.nooflikes":1},(err,likesdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send({likesdata:likesdata});
+        }
+    })
+});
+
+app.post("/DisplayBlogRemoveLike",(req,res)=>{
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}})
 })
 
 
