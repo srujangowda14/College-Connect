@@ -1,0 +1,287 @@
+.navbar{
+    background-color: rgb(33, 183, 233);
+    color: white;
+}
+.login_page_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+}
+.login_page_body_block{
+    box-shadow: 5px 8px 20px rgb(0,0,0.3);
+    padding: 40px;  
+}
+.login_page_body_block_login_details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 30px;
+}
+.login_page_body_block_login_details p{
+    margin-top: 20px;
+}
+.login_page_body_block_login_details_login_button{
+    text-align: center;
+    background-color: rgb(33, 183, 233);
+    margin-top: 20px;
+    color: white;
+    height: 40px;
+    vertical-align: middle;
+    border: none;
+
+}
+.login_page_body_block_login_details_login_button p{
+    margin-bottom: 8px;
+}
+.login_page_body_block_no_account{
+    text-align: center;
+    margin-top: 40px;
+}
+.login_page_body_block_create_account{
+    text-align: center;
+    text-decoration: none;
+
+
+}
+.login_page_body_block_login_details_login_button:hover{
+    transform: scale(1.1);
+}
+.homepage_header{
+    background-color: skyblue;
+    height: 50px;
+}
+.homepage_below_navbar{
+    display: flex;
+    margin-left: 307px;
+    margin-right: 307px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11px;
+}
+.homepage_below_navbar_button{
+    padding: 5px;
+    background-color: rgb(33, 183, 233);
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.homepage_below_navbar_button:hover{
+    transform: scale(1.05);
+}
+.homepage_below_navbar_button_navlink{
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+}
+.ask_question_main_div{
+    margin-left: 200px;
+    margin-right: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.ask_question_main_div_input{
+    margin-top: 20px;
+}
+.ask_question_main_div_input input{
+    width: 850px;
+}
+.ask_question_main_div_desc{
+    margin-top: 20px;
+}
+.ask_question_main_div_input_tag{
+    margin-top: 20px;
+}
+.ask_question_main_div_input_tag input{
+    width: 850px;
+}
+.nav-link-p{
+    cursor: pointer;
+}
+.ask_question_main_div_button{
+    margin-top: 20px;
+    padding: 5px 10px 5px 10px;
+    background-color: rgb(33, 183, 233);
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: white;
+}
+.ask_question_main_div_button:hover{
+    transform: scale(1.05);
+}
+.display_answer_main_block{
+    margin-left: 307px;
+    margin-right: 307px;
+    margin-top: 30px;
+}
+.display_answer_each_question{
+    background-color: lightgreen;
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+}
+.display_answer_each_question_askedby{
+    font-size: 13px;
+}
+.display_answer_each_question_link{
+    text-decoration: none;
+    outline: none;
+}
+.display_answer_each_question_p{
+    cursor: pointer;
+}
+.display_answer_each_question_p:hover{
+    color: white;
+}
+.single_question_main_div{
+    margin-left: 400px;
+    margin-right: 400px;
+    margin-top: 30px;
+}
+.single_question_main_div_question{
+    margin-top: 30px;
+}
+.single_question_main_div_question_p{
+    background-color: lightgreen;
+    padding: 40px 10px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+.single_question_main_div_button{
+    background-color: rgb(33, 183, 233);
+    border: none;
+    outline: none;
+    color: white;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    float: right;
+    margin-top: 10px;
+
+}
+.single_question_main_div_textarea{
+    border-radius: 18px;
+}
+.single_answer_div{
+    background-color: lightgreen;
+    margin-top: 10px;
+    padding: 30px 10px;
+    border-radius: 5px;
+}
+.single_answer_div_p{
+    color:white;
+}
+.my_questions_main_div{
+    margin-left: 400px;
+    margin-right: 400px;
+    margin-top: 30px;
+}
+
+.my_question_main_div_q_first{
+    display: flex;
+    justify-content: space-between;
+}
+.my_question_main_div_q_btn{
+    border: none;
+    outline: none;
+    color: white;
+    background-color: rgb(33, 183, 233);
+    float: right;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+.display_my_answer_main{
+    background-color: lightgreen;
+    margin-top: 10px;
+    padding: 30px 10px 40px 10px;
+    border-radius: 5px;
+}
+.homepage_below_questions{
+    display: flex;
+    margin-left: 307px;
+    margin-right: 307px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+.blog_main_div{
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.blog_main_div_input_head{
+    margin-top: 30px;
+}
+.blog_main_div_input_head input{
+    width: 840px;
+}
+.blog_main_div_input_blog{
+    margin-top: 30px;
+}
+.blog_main_div_button{
+    border: none;
+    outline: none;
+    color: white;
+    background-color: rgb(33, 183, 233);
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+.blog_main_div_button_div{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.display_blog_main_div{
+    margin-left: 307px;
+    margin-right: 307px;
+    margin-top: 30px;
+}
+.display_blog_main_div_blog{
+    box-shadow: 4px 6px 3px 4px rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: lightgreen;
+    padding-bottom: 10px;
+}
+.display_blog_main_div_blog_by{
+    font-size: 15px;
+}
+.display_blog_main_div_blog_buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.display_blog_main_div_blog_button{
+    border: none;
+    outline: none;
+    color: white;
+    background-color: brown;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.display_blog_main_div_blog_button:hover{
+    transform: scale(1.05);
+}
+.display_blog_main_div_blog_textarea{
+    margin-top: 10px;
+}
+.display_blog_main_div_blog_commentsection{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
