@@ -1,17 +1,19 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import DisplaySearchedQuestion from "./DisplaySearchedQuestion";
+import DisplayAnswer from "../answers/DisplayAnswer";
+import Navbar from "../navbar/Navbar";
 
 const SearchedQuestions  = () =>{
     const location=useLocation();
     const searchArray=location.state.searchdata;
     return(
         <>
+        <Navbar/>
            <div>
                {
                    searchArray.map((val,index)=>{
                        return(
-                           <DisplaySearchedQuestion
+                           <DisplayAnswer
                            pval={val}
                            key={index}
                            />

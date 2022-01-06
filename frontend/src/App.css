@@ -328,3 +328,8 @@
 .searchbutton:hover{
     transform: scale(1.05);
 }
+.display_blog_main_div_blog_lastsection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

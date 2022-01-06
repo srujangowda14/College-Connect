@@ -265,11 +265,12 @@ app.post("/DisplayBlogLike",(req,res)=>{
             console.log(err);
         }
     })
-    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":1}},(err,blogdata)=>{
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":1}},(err,likesdata)=>{
         if(err){
             console.log(err);
         }else{
-            res.send({blogdata:blogdata});
+            console.log(likesdata);
+            res.send({likesdata:likesdata});
         }
     })
 })
@@ -286,7 +287,20 @@ app.post("/DisplayBlogNoofLike",(req,res)=>{
 });
 
 app.post("/DisplayBlogRemoveLike",(req,res)=>{
-    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}})
+    const {bid,comment,uid}=req.body;
+    Blogs.findByIdAndUpdate(bid,{$pull:{"likes.likedby":uid}},(err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}},(err,likesdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send({likesdata:likesdata});
+        }
+    })
 });
 
 
@@ -296,7 +310,6 @@ app.post("/Homepage3",(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(searchdata);
             res.send({searchdata:searchdata});
         }
     })

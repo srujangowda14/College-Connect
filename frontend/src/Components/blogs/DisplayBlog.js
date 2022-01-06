@@ -21,22 +21,22 @@ const DisplayBlog = (props) =>{
   useEffect(()=>{
        axios.post("http://localhost:6969/DisplayBlogNoofLike",bdata)
        .then((res)=>{
-            setLikes(res.data.likesdata);
-            console.log(likes);
+            setLikes(res.data.likesdata.likes.nooflikes);
+            console.log(res.data.likesdata.likes.nooflikes);
        })
   },[]);
   const addLike = () =>{
          setIsLike(!toggle);
          axios.post("http://localhost:6969/DisplayBlogLike",bdata)
          .then((res)=>{
-           console.log(res.data.message);
+           setLikes(res.data.likesdata.likes.nooflikes);
          })
   }
   const removeLike = () =>{
          setIsLike(!toggle);
          axios.post("http://localhost:6969/DisplayBlogRemoveLike",bdata)
          .then((res)=>{
-
+            setLikes(res.data.likesdata.likes.nooflikes);
          })
   }
   const addComment = () =>{
@@ -60,10 +60,16 @@ const DisplayBlog = (props) =>{
           <div className="display_blog_main_div_blog">
                <h2>{props.pval.blogheading}<br/><p className="display_blog_main_div_blog_by">(by {props.pval.blogby.name} on {new Date(props.pval.date).toLocaleString({timezone:"+05:30"})})</p></h2>
                <p>{props.pval.blogbody}</p>
-               <div className="display_blog_main_div_blog_buttons">
-                  <button type="button" onClick={isLike?removeLike:addLike} className={isLike?"display_blog_main_div_blog_button_liked":"display_blog_main_div_blog_button"}>Like <FontAwesomeIcon icon={faThumbsUp} /></button>
-                  <button type="Comment" onClick={()=>setISComment(true)} className="display_blog_main_div_blog_button"> Comment <FontAwesomeIcon icon={faComments}/></button> 
+               <div className="display_blog_main_div_blog_lastsection">
+                   <div className="display_blog_main_div_blog_lastsection_likes">
+                        <p>Likes: {likes}</p>
+                   </div>
+                   <div className="display_blog_main_div_blog_buttons">
+                       <button type="button" onClick={isLike?removeLike:addLike} className={isLike?"display_blog_main_div_blog_button_liked":"display_blog_main_div_blog_button"}>Like <FontAwesomeIcon icon={faThumbsUp} /></button>
+                       <button type="Comment" onClick={()=>setISComment(true)} className="display_blog_main_div_blog_button"> Comment <FontAwesomeIcon icon={faComments}/></button> 
                </div>
+               </div>
+               
                <div className="display_blog_main_div_blog_commentsection">
                 {
                  isComment?
@@ -76,9 +82,6 @@ const DisplayBlog = (props) =>{
                   null
                 }
                </div>
-               
-               
-               
           </div>
          
       </div>
