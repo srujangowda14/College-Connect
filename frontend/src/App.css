@@ -58,7 +58,7 @@
     margin-right: 307px;
     display: flex;
     justify-content: space-between;
-    margin-top: 11px;
+    margin-top: 20px;
 }
 .homepage_below_navbar_button{
     padding: 5px;
@@ -309,4 +309,22 @@
     margin-right: 10px;
     border-radius: 5px;
     padding: 5px 10px;
+}
+.homepage_below_navbar_search{
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.searchbutton{
+    margin-left: 10px;
+    background-color: rgb(33, 183, 233);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+}
+.searchbutton:hover{
+    transform: scale(1.05);
 }

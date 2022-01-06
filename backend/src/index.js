@@ -12,7 +12,7 @@ app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/collegeconnectdb",{
     useNewUrlParser:true,
-    useUnifiedTopology:true
+    useUnifiedTopology:true,
 });()=>{
     console.log("Connected to database");
 }
@@ -74,14 +74,17 @@ const questionSchema = new mongoose.Schema(
         question:{
             type: String,
             required: true,
+            index:true
         },
         questionDescription:{
             type: String,
-            required: true
+            required: true,
+            index:true,
         },
         questionTag:{
             type: String,
-            required: true
+            required: true,
+            index:true,
         },
         date:{
             type: Date,
@@ -105,7 +108,10 @@ const questionSchema = new mongoose.Schema(
     }
 );
 
+questionSchema.index({ question : 'text', questionDescription : 'text',questionTag:'text' });
+
 const QuestionsCollection = new mongoose.model("QuestionsCollection",questionSchema);
+
 
 app.post("/AskQuestion",(req,res)=>{
     const {question,questionDescription,questionTag,questionby}=req.body;
@@ -124,7 +130,6 @@ app.post("/AskQuestion",(req,res)=>{
                     res.send({message:"Couldn't add"});
                 }
                 else{
-                    console.log(newQuestion);
                     res.send({message:"Your question has been added succesfully. hope you will be answered soon"});
                 }
             })
@@ -282,6 +287,19 @@ app.post("/DisplayBlogNoofLike",(req,res)=>{
 
 app.post("/DisplayBlogRemoveLike",(req,res)=>{
     Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}})
+});
+
+
+app.post("/Homepage3",(req,res)=>{
+    const {stext}=req.body;
+    QuestionsCollection.find({$text:{$search:stext}},(err,searchdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log(searchdata);
+            res.send({searchdata:searchdata});
+        }
+    })
 })
 
 

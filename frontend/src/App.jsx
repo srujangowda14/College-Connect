@@ -8,6 +8,7 @@ import MyQuestions from './Components/questions/MyQuestions';
 import AskQuestion from './Components/questions/AskQuestion';
 import SingleQuestion from './Components/answers/SingleQuestion';
 import Blog from './Components/blogs/Blog';
+import SearchedQuestions from './Components/questions/SearchedQuestions';
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/AskQuestion" element={<AskQuestion/>} />
           <Route path="SingleQuestion" element={<SingleQuestion/>}/>
           <Route path="/Blog" element={<Blog/>}/>
+          <Route path="/SearchedQuestions" element={<SearchedQuestions/>}/>
         </Routes>
       </BrowserRouter>
     </div>
