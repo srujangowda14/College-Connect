@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 const DisplayAnswer = (props) =>{
+    const qid=props.pval._id;
     const ques=props.pval.question;
     const quesd=props.pval.questionDescription;
     const quest=props.pval.questionTag;
@@ -10,8 +11,9 @@ const DisplayAnswer = (props) =>{
     const d=dateofq.toLocaleString({timezone:"+05:30"});
     const navigate=useNavigate();
     const gotoanswerpage = () =>{
-        navigate("/SingleQuestion",{state:{pques:ques,pquesd:quesd,pquest:quest}});
+        navigate("/SingleQuestion",{state:{pqid:qid,pques:ques,pquesd:quesd,pquest:quest}});
     }
+    console.log(qid);
     return(
         <>
         <div className="display_answer_main_block">

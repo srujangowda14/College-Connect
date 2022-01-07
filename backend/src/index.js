@@ -206,6 +206,7 @@ const blogSchema=new mongoose.Schema({
     likes:{
         nooflikes:{
            type: Number,
+           min:0,
            default: 0
         },
         likedby:[
@@ -269,22 +270,10 @@ app.post("/DisplayBlogLike",(req,res)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(likesdata);
             res.send({likesdata:likesdata});
         }
     })
 })
-
-app.post("/DisplayBlogNoofLike",(req,res)=>{
-    const {bid}=req.body;
-    Blogs.findById(bid,{"likes.nooflikes":1},(err,likesdata)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.send({likesdata:likesdata});
-        }
-    })
-});
 
 app.post("/DisplayBlogRemoveLike",(req,res)=>{
     const {bid,comment,uid}=req.body;
@@ -303,6 +292,19 @@ app.post("/DisplayBlogRemoveLike",(req,res)=>{
     })
 });
 
+app.post("/DisplayBlogNoofLike",(req,res)=>{
+    const {bid}=req.body;
+    Blogs.findById(bid,{"likes.nooflikes":1},(err,likesdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send({likesdata:likesdata});
+        }
+    })
+});
+
+
+
 
 app.post("/Homepage3",(req,res)=>{
     const {stext}=req.body;
@@ -311,6 +313,53 @@ app.post("/Homepage3",(req,res)=>{
             console.log(err);
         }else{
             res.send({searchdata:searchdata});
+        }
+    })
+})
+app.post("/DisplayBlogComment",(req,res)=>{
+    const {bid,comment,uid}=req.body;
+    Blogs.findByIdAndUpdate(bid,{$push:{comments:{comment:comment,commentby:uid}}},(err,commentdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log(commentdata.comments);
+            res.send({commentdata:commentdata.comments});
+        }
+    })
+
+})
+
+app.post("/MyBlogs",(req,res)=>{
+    const {name,email,password,_id}=req.body;
+    Blogs.find({blogby:_id},(err,retdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send({retdata:retdata});
+        }
+    }).populate('blogby','name')
+})
+
+app.post("/ReadComment",(req,res)=>{
+    const {bid,comment,uid}=req.body;
+    Blogs.findById(bid,(err,commentdata)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.send({commentdata:commentdata.comments});
+        }
+    }).populate({path:'comments.commentby',select:'name'});
+})
+
+app.post("/deleteanswer",(req,res)=>{
+    const {qid,answer,answerby}=req.body;
+    QuestionsCollection.findByIdAndUpdate(qid,{$pull:{answers:{answer:answer,answerby:answerby}}},(err,qdata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log("deleted successfully");
+            res.send({message:"Deleted successfully"});
         }
     })
 })

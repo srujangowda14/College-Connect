@@ -91,16 +91,33 @@
 }
 .ask_question_main_div_input input{
     width: 850px;
+    box-shadow: 2px 3px 5px 2px rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    border-radius: 5px;
 }
+
 .ask_question_main_div_desc{
     margin-top: 20px;
 }
+.ask_question_main_div_desc textarea{
+    box-shadow: 2px 3px 5px 2px rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
 .ask_question_main_div_input_tag{
     margin-top: 20px;
 }
 .ask_question_main_div_input_tag input{
     width: 850px;
+    box-shadow: 2px 3px 5px 2px rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    border-radius: 5px;
 }
+
 .nav-link-p{
     cursor: pointer;
 }
@@ -332,4 +349,51 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.display_blog_main_div_blog_lastsection_likes p{
+    display: inline;
+}
+.comment{
+    cursor: pointer;
+}
+.comment:hover{
+    color: rgb(134, 134, 241);
+}
+.my_question_main_div_q_blog{
+    line-height: 5px;
+}
+.display_blog_main_div_blog_showcomments{
+    width: 220px;
+    background-color: white;
+    /* padding: 10px; */
+    border-radius: 7px;
+}
+.display_blog_main_div_blog_showcomments_comment{
+     line-height: 5px;
+     padding: 10px;
+
+}
+.display_blog_main_div_blog_showcomments_commentername{
+    font-weight: 700;
+}
+.big_comment_section{
+    display: flex;
+    justify-content: space-between;
+}
+.delete_answer{
+    border: none;
+    outline: none;
+    float: right;
+    background-color: brown;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+}
+.delete_answer_button{
+    display: flex;
+    justify-content: right;
+    margin-bottom: -10px;
+}
+.delete_answer:hover{
+    transform: scale(1.05);
 }

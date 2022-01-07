@@ -7,7 +7,9 @@ import Navbar from "../navbar/Navbar";
 import SingleAnswer from "./SingleAnswer";
 
 const SingleQuestion = () =>{
+    
      const location=useLocation();
+     console.log(location.state.pqid);
      const qobj={
          qq: location.state.pques
      }
@@ -72,6 +74,8 @@ const SingleQuestion = () =>{
                             <SingleAnswer
                             prval={val}
                             key={index}
+                            qid={location.state.pqid}
+
                             />
                           );
                            

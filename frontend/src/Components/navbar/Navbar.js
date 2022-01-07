@@ -27,7 +27,7 @@ const Navbar = () =>{
                              <NavLink className="nav-link" aria-current="page" to="/MyQuestions">My Questions</NavLink>
                           </li>
                           <li className="nav-item">
-                             <NavLink className="nav-link" to="/MyBlog">My Blogs</NavLink>
+                             <NavLink className="nav-link" to="/MyBlogs">My Blogs</NavLink>
                           </li>
                           <li className="nav-item">
                              <p className="nav-link nav-link-p" onClick={logOut}>Logout</p>
