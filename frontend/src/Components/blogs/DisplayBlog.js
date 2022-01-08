@@ -21,17 +21,25 @@ const DisplayBlog = (props) =>{
   const [isComment,setISComment]=useState(false);
 
   useEffect(()=>{
-       axios.post("http://localhost:6969/DisplayBlogNoofLike",bdata)
+       let url=`http://localhost:6969/DisplayBlogNoofLike?bid=${bdata.bid}`;
+       axios.get(url)
        .then((res)=>{
             setLikes(res.data.likesdata.likes.nooflikes);
-            console.log(res.data.likesdata.likes.nooflikes);
        })
   },[]);
-  const addLike = () =>{
+  const addLike = async () =>{
          setIsLike(!isLike);
-         axios.post("http://localhost:6969/DisplayBlogLike",bdata)
+         let url=`http://localhost:6969/DisplayBlogLike?bid=${bdata.bid}&uid=${bdata.uid}`;
+         axios.post(url)
          .then((res)=>{
-           setLikes(res.data.likesdata.likes.nooflikes);
+              if(res.data.message==1){
+                   console.log("Hi");
+              }else{
+                   setLikes(res.data.likesdata.likes.nooflikes);
+              }
+              
+         },(err)=>{
+              console.log(err);
          })
   }
   const removeLike = () =>{
@@ -77,7 +85,7 @@ const DisplayBlog = (props) =>{
                         <p className="comment" onClick={readComments}> Comments</p> 
                    </div>
                    <div className="display_blog_main_div_blog_buttons">
-                       <button type="button" onClick={isLike?removeLike:addLike} className={!isLike?"display_blog_main_div_blog_button_liked":"display_blog_main_div_blog_button"}>Like <FontAwesomeIcon icon={faThumbsUp} /></button>
+                       <button type="button" onClick={isLike?addLike:removeLike} className={!isLike?"display_blog_main_div_blog_button_liked":"display_blog_main_div_blog_button"}>Like <FontAwesomeIcon icon={faThumbsUp} /></button>
                        <button type="Comment" onClick={()=>setISComment(!isComment)} className="display_blog_main_div_blog_button"> Comment <FontAwesomeIcon icon={faComments}/></button> 
                </div>
                </div>

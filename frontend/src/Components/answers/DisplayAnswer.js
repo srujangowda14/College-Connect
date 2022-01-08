@@ -13,7 +13,6 @@ const DisplayAnswer = (props) =>{
     const gotoanswerpage = () =>{
         navigate("/SingleQuestion",{state:{pqid:qid,pques:ques,pquesd:quesd,pquest:quest}});
     }
-    console.log(qid);
     return(
         <>
         <div className="display_answer_main_block">

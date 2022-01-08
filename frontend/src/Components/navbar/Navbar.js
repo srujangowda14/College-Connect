@@ -30,6 +30,9 @@ const Navbar = () =>{
                              <NavLink className="nav-link" to="/MyBlogs">My Blogs</NavLink>
                           </li>
                           <li className="nav-item">
+                             <NavLink className="nav-link" to="/MyProfile">My Profile</NavLink>
+                          </li>
+                          <li className="nav-item">
                              <p className="nav-link nav-link-p" onClick={logOut}>Logout</p>
                           </li>
                        </ul>

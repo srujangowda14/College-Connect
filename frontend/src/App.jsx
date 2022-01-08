@@ -10,6 +10,7 @@ import SingleQuestion from './Components/answers/SingleQuestion';
 import Blog from './Components/blogs/Blog';
 import SearchedQuestions from './Components/questions/SearchedQuestions';
 import MyBlogs from './Components/blogs/MyBlogs';
+import MyProfile from './Components/profile/MyProfile';
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/Blog" element={<Blog/>}/>
           <Route path="/SearchedQuestions" element={<SearchedQuestions/>}/>
           <Route path="/MyBlogs" element={<MyBlogs/>}/>
+          <Route path="/MyProfile" element={<MyProfile/>}/>
         </Routes>
       </BrowserRouter>
     </div>

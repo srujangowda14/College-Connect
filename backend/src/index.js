@@ -1,8 +1,11 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const cors=require("cors");
-const { timestampFormat } = require("concurrently/src/defaults");
-const { response } = require("express");
+
+const User=require("../schemas/user");
+const QuestionsCollection=require("../schemas/questioncollection");
+const Blogs=require("../schemas/blog");
+const UserProfiles=require("../schemas/userprofile");
 
 const app=express();
 
@@ -16,19 +19,6 @@ mongoose.connect("mongodb://localhost:27017/collegeconnectdb",{
 });()=>{
     console.log("Connected to database");
 }
-
-const userSchema=new mongoose.Schema(
-    {
-        name: String,
-        email:{
-            type: String,
-            unique: true
-        },
-        password: String
-    }
-);
-
-const User= new mongoose.model("User",userSchema);
 
 app.post("/Login",(req,res)=>{
     const {email,password}=req.body;      //The req. body object allows you to access data in a string or JSON object from the client side
@@ -64,54 +54,16 @@ app.post("/Register",(req,res)=>{
                     res.send({message:"successful",newuser:user});
                 }
             })
+            const userprofile=new UserProfiles({userid:user._id});
+            userprofile.save((err)=>{
+                if(err){
+                    console.log(err);
+                }
+            })
         }
     })
     
 });
-
-const questionSchema = new mongoose.Schema(
-    {
-        question:{
-            type: String,
-            required: true,
-            index:true
-        },
-        questionDescription:{
-            type: String,
-            required: true,
-            index:true,
-        },
-        questionTag:{
-            type: String,
-            required: true,
-            index:true,
-        },
-        date:{
-            type: Date,
-            default: Date.now
-        },
-        // questionbyemail: String,
-        // questionbyname: String,
-        questionby: {ref:"User",type:mongoose.Schema.Types.ObjectId,},
-        answers: [
-            {
-                answer: String,
-                // answerbyemail: String,
-                // answerbyname: String,
-                date:{
-                    type:Date,
-                    default: Date.now
-                },
-                answerby: {ref:"User",type:mongoose.Schema.Types.ObjectId,},
-            }
-        ],
-    }
-);
-
-questionSchema.index({ question : 'text', questionDescription : 'text',questionTag:'text' });
-
-const QuestionsCollection = new mongoose.model("QuestionsCollection",questionSchema);
-
 
 app.post("/AskQuestion",(req,res)=>{
     const {question,questionDescription,questionTag,questionby}=req.body;
@@ -190,49 +142,7 @@ app.post("/MyQuestions2",(req,res)=>{
     });
 })
 
-const blogSchema=new mongoose.Schema({
-    blogheading:{
-        type:String,
-        required: true,
-    },
-    blogbody:{
-        type:String,
-        required:true,
-    },
-    blogby:{
-        ref:"User",
-        type:mongoose.Schema.Types.ObjectId
-    },
-    likes:{
-        nooflikes:{
-           type: Number,
-           min:0,
-           default: 0
-        },
-        likedby:[
-            {
-                ref:"User",
-                type:mongoose.Schema.Types.ObjectId
-            }
-        ]
-    },
-    comments:[
-        {
-            comment:{
-               type:String,
-            },
-            commentby:{
-               ref:"User",
-               type:mongoose.Schema.Types.ObjectId
-        }
-    }],
-    date:{
-        type: Date,
-        default: Date.now,
-    }
-});
 
-const Blogs=new mongoose.model("Blogs",blogSchema);
 
 app.post("/Blog",(req,res)=>{
     const {blogtitle,blogbody,blogby}=req.body;
@@ -259,14 +169,20 @@ app.post("/Homepage2",(req,res)=>{
 })
 
 app.post("/DisplayBlogLike",(req,res)=>{
-    const {bid,comment,uid}=req.body;
-    console.log(uid);
+    const bid=req.query.bid;
+    const uid=req.query.uid;
+    Blogs.find({_id:bid},{"likes.likedby":uid},(err,isPresent)=>{
+        if(isPresent==null){
+            console.log("Liked");
+            res.send({message:1});
+        }
+    })
     Blogs.findByIdAndUpdate(bid,{$push:{"likes.likedby":uid}},(err)=>{
         if(err){
             console.log(err);
         }
     })
-    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":1}},(err,likesdata)=>{
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":1}},{new:true},(err,likesdata)=>{
         if(err){
             console.log(err);
         }else{
@@ -283,7 +199,7 @@ app.post("/DisplayBlogRemoveLike",(req,res)=>{
         }
     })
 
-    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}},(err,likesdata)=>{
+    Blogs.findByIdAndUpdate(bid,{$inc:{"likes.nooflikes":-1}},{new:true},(err,likesdata)=>{
         if(err){
             console.log(err);
         }else{
@@ -292,8 +208,8 @@ app.post("/DisplayBlogRemoveLike",(req,res)=>{
     })
 });
 
-app.post("/DisplayBlogNoofLike",(req,res)=>{
-    const {bid}=req.body;
+app.get("/DisplayBlogNoofLike",(req,res)=>{
+    const bid=req.query.bid;
     Blogs.findById(bid,{"likes.nooflikes":1},(err,likesdata)=>{
         if(err){
             console.log(err);
@@ -302,9 +218,6 @@ app.post("/DisplayBlogNoofLike",(req,res)=>{
         }
     })
 });
-
-
-
 
 app.post("/Homepage3",(req,res)=>{
     const {stext}=req.body;
@@ -363,6 +276,20 @@ app.post("/deleteanswer",(req,res)=>{
         }
     })
 })
+
+app.get("/userprofile",(req,res)=>{
+    const _id=req.query.uid;
+    UserProfiles.findOne({userid:_id},(err,userprofiledata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log(userprofiledata);
+            res.send({userprofiledata:userprofiledata});
+        }
+    })
+})
+
+
 
 
 app.listen(6969,()=>{

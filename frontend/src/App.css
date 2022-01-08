@@ -210,7 +210,7 @@
     border: none;
     outline: none;
     color: white;
-    background-color: rgb(33, 183, 233);
+    background-color: brown;
     float: right;
     border-radius: 5px;
     padding: 5px 10px;
@@ -396,4 +396,7 @@
 }
 .delete_answer:hover{
     transform: scale(1.05);
+}
+.userprofile_first_div{
+    background-color: rgba(0,0,0,0.65);
 }

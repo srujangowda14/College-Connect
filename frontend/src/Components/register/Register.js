@@ -24,8 +24,20 @@ const Register = () =>{
            if(name && email && password){ 
                axios.post("http://localhost:6969/Register",user)
                .then((res)=>{
+                   if(res.data.message=="An account with this email already exists! Use another one"){
+                       alert(res.data.message);
+                       setUser({
+                        name:"",
+                        email:"",
+                        password:""
+                    });
+                       navigate("/Register",{replace:true});
+                   }
+                   else{
                     localStorage.setItem("user",JSON.stringify(res.data.newuser));
                     navigate("/Homepage",{replace:true});
+                   }
+                    
                     
                })
            }
