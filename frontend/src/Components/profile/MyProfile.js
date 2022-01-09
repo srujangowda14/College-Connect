@@ -3,22 +3,34 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../navbar/Navbar";
 
 const MyProfile  = () =>{
-    const [userprofile,setUserProfile]=useState({});
+    const [userprofile,setUserProfile]=useState({
+        userid: "",
+        lastname: "",
+        branch: "",
+        year: 1,
+        bio: "",
+        skills: "",
+    });
     const ls=localStorage.getItem("user");
     const lobj=JSON.parse(ls);
     useEffect(()=>{
-        axios.get(`http://localhost:6969/userprofile?uid=${lobj._id}`)
+        let url=`http://localhost:6969/userprofile?uid=${lobj._id}`;
+        axios.get(url)
         .then((res)=>{
-            setUserProfile(res.data.userprofiledata);
-            console.log(res.data.userprofiledata);
+            setUserProfile({
+                userid:res.data.userprofiledata.userid,
+                lastname:res.data.userprofiledata.
+            });
         })
-    })
+    },[]);
     return(
         <>
         <Navbar/>
         <div className="userprofile_first_div">
-            <h1>{userprofile.firstname} {userprofile.lastname}</h1>
-            {/* <p>CollegeConnect Username: {userprofile.userid.name}</p> */}
+            <div className="userprofile_first_div_name">
+                  
+             </div>
+           
         </div>
         </>
     );

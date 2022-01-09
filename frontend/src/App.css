@@ -399,4 +399,10 @@
 }
 .userprofile_first_div{
     background-color: rgba(0,0,0,0.65);
+    height: 275px;
+    color: white;
+}
+.userprofile_first_div_name{
+    margin-left: 100px;
+    padding-top: 100px;
 }

@@ -1,5 +1,4 @@
 const mongoose=require("mongoose");
-const User=require("./user");
 
 const userprofileSchema = new mongoose.Schema({
     userid:{
@@ -8,13 +7,29 @@ const userprofileSchema = new mongoose.Schema({
     },
     firstname:{
         type:String,
+        defualt:"",
     },
-    lastname:"String",
-    branch:"String",
-    year:"Number",
-    bio:"String",
-    birthday:"Date",
-    skills:"String"
+    lastname:{
+        type:String,
+        default:"",
+    },
+    branch:{
+        type:String,
+        default:"",
+    },
+    year:{
+        type:Number,
+        default:1,
+    },
+    bio:{
+        type:String,
+        default:"",
+    },
+    birthday:Date,
+    skills:{
+        type: String,
+        default:""
+    }
 })
 
 module.exports=new mongoose.model("UserProfiles",userprofileSchema);

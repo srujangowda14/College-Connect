@@ -278,15 +278,16 @@ app.post("/deleteanswer",(req,res)=>{
 })
 
 app.get("/userprofile",(req,res)=>{
-    const _id=req.query.uid;
-    UserProfiles.findOne({userid:_id},(err,userprofiledata)=>{
+    const uid=req.query.uid;
+    console.log(uid);
+    UserProfiles.findOne({userid:uid},(err,userprofiledata)=>{
         if(err){
             console.log(err);
         }else{
             console.log(userprofiledata);
             res.send({userprofiledata:userprofiledata});
         }
-    })
+    }).populate('userid','name');
 })
 
 
