@@ -10,7 +10,6 @@ const DisplayBlog = (props) =>{
   const locobj=JSON.parse(lo);
   const [isLike,setIsLike]=useState(true);
   const [likes,setLikes]=useState(0);
-  const [noofcomments,setnoofcomments]=useState(0);
   const [comments,setComments]=useState([]);
   const [bdata,setbdata]=useState({
        bid:props.pval._id,
@@ -21,9 +20,14 @@ const DisplayBlog = (props) =>{
   const [isComment,setISComment]=useState(false);
 
   useEffect(()=>{
-       let url=`http://localhost:6969/DisplayBlogNoofLike?bid=${bdata.bid}`;
-       axios.get(url)
+     //   let url=`http://localhost:6969/DisplayBlogNoofLike?bid=${bdata.bid}&uid=${bdata.uid}`;
+       axios.post("http://localhost:6969/DisplayBlogNoofLike",bdata)
        .then((res)=>{
+            if(res.data.likedalready==true){
+                 console.log("hi1"); 
+                 console.log(bdata.bid);
+                 setIsLike(false);
+            }
             setLikes(res.data.likesdata.likes.nooflikes);
        })
   },[]);
@@ -32,12 +36,7 @@ const DisplayBlog = (props) =>{
          let url=`http://localhost:6969/DisplayBlogLike?bid=${bdata.bid}&uid=${bdata.uid}`;
          axios.post(url)
          .then((res)=>{
-              if(res.data.message==1){
-                   console.log("Hi");
-              }else{
                    setLikes(res.data.likesdata.likes.nooflikes);
-              }
-              
          },(err)=>{
               console.log(err);
          })
@@ -103,13 +102,10 @@ const DisplayBlog = (props) =>{
                               )
                              
                          })
-                    }
-                         
+                    }    
                   </div>
                   :null
                }
-               
-               
                  <div className="display_blog_main_div_blog_commentsection">
                    {
                     isComment?

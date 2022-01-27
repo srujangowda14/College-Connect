@@ -55,17 +55,17 @@ const AskQuestion = () =>{
           <div className="ask_question_main_div">
                <div className="ask_question_main_div_input">
                     <p>TITLE</p>
-                    <input type="text" name="question" value={questiondesc.question} onChange={handleChangeInAskQuestion}/>
+                    <input type="text" name="question" value={questiondesc.question} onChange={handleChangeInAskQuestion} required/>
                </div>
                <div className="ask_question_main_div_desc">
                     <p>DESCRIBE YOUR QUESTION</p>
-                    <textarea name="questionDescription" value={questiondesc.questionDescription} cols="92" rows="16" onChange={handleChangeInAskQuestion}></textarea>
+                    <textarea name="questionDescription" value={questiondesc.questionDescription} cols="92" rows="16" onChange={handleChangeInAskQuestion} required></textarea>
                </div>
                <div className="ask_question_main_div_input_tag">
                     <p>ADD TAG</p>
-                    <input type="text" name="questionTag" value={questiondesc.questionTag} onChange={handleChangeInAskQuestion}/>
+                    <input type="text" name="questionTag" value={questiondesc.questionTag} onChange={handleChangeInAskQuestion} required/>
                </div>
-                   <button type="submit"className="ask_question_main_div_button" onClick={submitQuestion}>Submit Question</button>
+                   <button type="submit" className="ask_question_main_div_button" onClick={submitQuestion}>Submit Question</button>
           </div>
           </>
       )

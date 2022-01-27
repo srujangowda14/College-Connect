@@ -32,11 +32,6 @@ const App = () => {
     }
     
   }, []);
-  // const fnsetLoginUser = (userobject) =>{
-  //   console.log("hellllo")
-  //   setLoginUser(userobject);
-
-  // }
   return (
     <div>
       <BrowserRouter>

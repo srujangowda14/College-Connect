@@ -13,7 +13,6 @@ const MyQuestions = () =>{
         axios.post("http://localhost:6969/MyQuestions1",locobj)
           .then((res)=>{
                 setmyQuestions(res.data.retdata);
-                console.log(res.data.retdata);
           })
     },[]);
     
@@ -22,15 +21,20 @@ const MyQuestions = () =>{
         <>
         <Navbar/>
         <div className="my_questions_main_div">
-                 {
-                     myQuestions.map((val,index)=>{
-                         return(
-                            <DisplayMyQuestion
-                            val={val}
-                            key={index}
-                             />
-                         );
-                     })
+                    {
+                     (myQuestions.length===0)?
+                     <div>
+                         <h3 className="text-center">It seems you haven't asked any question yet</h3>
+                        </div>
+                        :myQuestions.map((val,index)=>{
+                            return(
+                               <DisplayMyQuestion
+                               val={val}
+                               key={index}
+                                />
+                            );
+                        })
+                     
                      
                  }
 

@@ -16,6 +16,7 @@ app.use(cors());
 mongoose.connect("mongodb://localhost:27017/collegeconnectdb",{
     useNewUrlParser:true,
     useUnifiedTopology:true,
+    autoIndex: true,
 });()=>{
     console.log("Connected to database");
 }
@@ -44,12 +45,22 @@ app.post("/Register",(req,res)=>{
         if(user){
             res.send({message:"An account with this email already exists! Use another one"});
         }
+        else if(!email.includes("@gmail.com")){
+            res.send({message:"Enter a valid email address"});
+        }
         else{
             const user=new User({name,email,password});
             user.save((err)=>{
                 if(err){
-                    res.send(err);
-                }
+                    if (err.name == 'ValidationError') {
+                            console.error(err.message.split(':')[2]);
+                            res.send({message:err.message.split(':')[2]});
+                        } else {
+                            console.log("hid");
+                            console.error(err.message.split(":")[1]);
+                            res.send({message:"Username already exists. Use another one"});
+                        }
+                    }
                 else{
                     res.send({message:"successful",newuser:user});
                 }
@@ -90,11 +101,13 @@ app.post("/AskQuestion",(req,res)=>{
 })
 
 var temp=[];
-app.post("/Homepage1",(req,res)=>{
+app.get("/Homepage1",(req,res)=>{
+    const nq=req.query.nq;
+    const numnq=Number(nq);
     QuestionsCollection.find({},(err,questiondata)=>{
             res.send({questiondata:questiondata});
             
-    }).sort({date:-1}).limit(10).populate('questionby','name');
+    }).sort({date:-1}).limit(numnq).populate('questionby','name');
 
 })
 
@@ -157,7 +170,9 @@ app.post("/Blog",(req,res)=>{
     })
 });
 
-app.post("/Homepage2",(req,res)=>{
+app.get("/Homepage2",(req,res)=>{
+    const nb=req.query.nb;
+    const numnb=Number(nb);
     Blogs.find({},(err,blogdata)=>{
         if(err){
             console.log(err);
@@ -165,18 +180,12 @@ app.post("/Homepage2",(req,res)=>{
             res.send({blogdata:blogdata});
         }
         
-    }).populate('blogby','name');
+    }).sort({date:-1}).limit(numnb).populate('blogby','name');
 })
 
 app.post("/DisplayBlogLike",(req,res)=>{
     const bid=req.query.bid;
     const uid=req.query.uid;
-    Blogs.find({_id:bid},{"likes.likedby":uid},(err,isPresent)=>{
-        if(isPresent==null){
-            console.log("Liked");
-            res.send({message:1});
-        }
-    })
     Blogs.findByIdAndUpdate(bid,{$push:{"likes.likedby":uid}},(err)=>{
         if(err){
             console.log(err);
@@ -208,13 +217,23 @@ app.post("/DisplayBlogRemoveLike",(req,res)=>{
     })
 });
 
-app.get("/DisplayBlogNoofLike",(req,res)=>{
-    const bid=req.query.bid;
+app.post("/DisplayBlogNoofLike",(req,res)=>{
+    let likedalready=false;
+    const {bid,comment,uid}=req.body;
+    // console.log(uid);
+    // console.log("newone");
+    Blogs.findOne({$and:[{_id:bid},{"likes.likedby":uid}]},(err,isPresent)=>{
+        if(isPresent){
+            // console.log("hi sru");
+            // console.log(isPresent.blogheading);
+            likedalready=true;
+        }
+    })
     Blogs.findById(bid,{"likes.nooflikes":1},(err,likesdata)=>{
         if(err){
             console.log(err);
         }else{
-            res.send({likesdata:likesdata});
+            res.send({likesdata:likesdata,likedalready:likedalready});
         }
     })
 });
@@ -279,7 +298,6 @@ app.post("/deleteanswer",(req,res)=>{
 
 app.get("/userprofile",(req,res)=>{
     const uid=req.query.uid;
-    console.log(uid);
     UserProfiles.findOne({userid:uid},(err,userprofiledata)=>{
         if(err){
             console.log(err);
@@ -290,9 +308,32 @@ app.get("/userprofile",(req,res)=>{
     }).populate('userid','name');
 })
 
+app.post("/userprofileupdate",(req,res)=>{
+    const {userid,firstName,lastname,branch,year,skills,bio,birthday}=req.body;
+    const numyear=Number(year);
+    console.log(req.body);
+    UserProfiles.updateOne({userid:userid},{$set:{firstName:firstName,lastname:lastname,branch:branch,year:numyear,skills:skills,bio:bio,birthday:birthday}},(err,profiledata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            // console.log(profiledata)
+            res.send({message:"Change has been made successfully"});
 
+        }
+    }).populate('userid','name');
+})
 
-
+app.post("/deleteuser",(req,res)=>{
+    const {name,email,password,_id}=req.body;
+    console.log(_id);
+    UserProfiles.deleteOne({userid:_id},(err)=>{
+        console.log("up deleted");
+    })
+    User.deleteOne({email:email},(err)=>{
+        res.send({message:"Your account has been deleted. Sorry to let you go"});
+    })
+   
+})
 app.listen(6969,()=>{
     console.log("Backend server started");
 });

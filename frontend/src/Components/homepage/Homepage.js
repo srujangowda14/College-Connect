@@ -11,6 +11,7 @@ import Navbar from "../navbar/Navbar";
 
 const Homepage = () =>{
     const navigate=useNavigate();
+    const [nq,setNq]=useState(5);
     const [showquestions,setShowquestions]=useState([]);
     const [showblogs,setShowblogs]=useState([]);
     const [searchText,setSearchText]=useState({
@@ -18,17 +19,35 @@ const Homepage = () =>{
     });
 
     useEffect(()=>{
+      let url=`http://localhost:6969/Homepage1?nq=${nq}`
       axios.all([
-        axios.post("http://localhost:6969/Homepage1")
+        axios.get(url)
         .then((res)=>{
          setShowquestions(res.data.questiondata);
+         setNq(nq+5);
          }),
-        axios.post("http://localhost:6969/Homepage2")
+        axios.get("http://localhost:6969/Homepage2")
         .then((res)=>{
          setShowblogs(res.data.blogdata);
         })
       ]) 
     },[]);
+
+    const getquestions = () =>{
+      let url=`http://localhost:6969/Homepage1?nq=${nq}`;
+      axios.get(url)
+        .then((res)=>{
+         setShowquestions(res.data.questiondata);
+         setNq(nq+10);
+         })
+    }
+
+    const getblogs = () =>{
+      axios.get("http://localhost:6969/Homepage2")
+      .then((res)=>{
+       setShowblogs(res.data.blogdata);
+      })
+    }
 
     const updateSearchText = (event) =>{
       const {name,value}=event.target;
@@ -43,9 +62,8 @@ const Homepage = () =>{
       .then((res)=>{
            navigate("/SearchedQuestions",{state:{searchdata:res.data.searchdata}});
       })
-
-
    }
+
      return(
          <>
            <Navbar/> 
@@ -69,6 +87,10 @@ const Homepage = () =>{
                 );
             })
           }
+          <div className="homepage_view_more">
+               <button className="homepage_below_navbar_button" type="submit" onClick={getquestions}>View more</button>
+          </div>
+          
           <div className="homepage_below_questions">
                <h2>Top Blogs</h2>
                <button className="homepage_below_navbar_button"><Link className="homepage_below_navbar_button_navlink" to="/Blog">Write a Blog</Link></button>
@@ -83,6 +105,10 @@ const Homepage = () =>{
               );
             })
           }
+          <div className="homepage_view_more">
+               <button className="homepage_below_navbar_button" type="submit" onClick={getblogs}>View more</button>
+          </div>
+          
          </>
      );
 }
