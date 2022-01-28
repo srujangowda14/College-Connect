@@ -353,7 +353,10 @@
     margin-right: 500px;
     margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+.search_style{
+    width: 50px;
 }
 .searchbutton{
     margin-left: 10px;
@@ -507,4 +510,8 @@
     outline: none;
     border-radius: 5px;
 
+}
+.warning_message_style{
+    color: red;
+    font-size: 12px;
 }

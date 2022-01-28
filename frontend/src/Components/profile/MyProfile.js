@@ -20,6 +20,16 @@ const MyProfile  = () =>{
         uname:""
         
     });
+    const changeformat = (val) =>{
+        if(val<10){
+            const s="0"+val.toString();
+            return s;
+        }else{
+            const s=val.toString();
+            return s;
+        }
+    }
+
     const ls=localStorage.getItem("user");
     const lobj=JSON.parse(ls);
     useEffect(()=>{
@@ -27,9 +37,7 @@ const MyProfile  = () =>{
         axios.get(url)
         .then((res)=>{
             const d=new Date(res.data.userprofiledata.birthday);
-            console.log(d);
-            const dt=d.getFullYear()+"-"+(changemonthformat(d.getMonth()+1))+"-"+d.getDate();
-            console.log(dt);
+            const dt=d.getFullYear()+"-"+changeformat(d.getMonth()+1)+"-"+changeformat(d.getDate());
             setUserProfile({
                 userid:lobj._id,
                 firstName:res.data.userprofiledata.firstName,
@@ -62,11 +70,6 @@ const MyProfile  = () =>{
         })
     }
 
-    const changemonthformat = (val) =>{
-        if(val<10){
-            return "0"+val;
-        }
-    }
 
     const deleteAccount = () =>{
         axios.post("http://localhost:6969/deleteuser",lobj)

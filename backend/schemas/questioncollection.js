@@ -6,7 +6,8 @@ const questionSchema = new mongoose.Schema(
         question:{
             type: String,
             required: true,
-            index:true
+            index:true,
+            unique:true
         },
         questionDescription:{
             type: String,

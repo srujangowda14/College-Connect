@@ -80,9 +80,8 @@ app.post("/AskQuestion",(req,res)=>{
     const {question,questionDescription,questionTag,questionby}=req.body;
     QuestionsCollection.findOne({$and:[{question:question},{answers:{$ne:[]}}]},(err,foundQuestion)=>{
         if(foundQuestion){
-            foundQuestion.forEach(element => {
-                res.send({message:"Answer found",retfoundQuestion:element});
-            });
+            console.log(foundQuestion);
+            res.send({message:"Question already exists",qdata:foundQuestion});
             
         }
         else{
@@ -145,7 +144,7 @@ app.post("/MyQuestions1",(req,res)=>{
 })
 app.post("/MyQuestions2",(req,res)=>{
     const {_id,question}=req.body;
-    QuestionsCollection.remove({question:question},(err,removedData)=>{
+    QuestionsCollection.deleteOne({question:question},(err,removedData)=>{
         if(err){
             console.log(err);
         }
@@ -159,15 +158,27 @@ app.post("/MyQuestions2",(req,res)=>{
 
 app.post("/Blog",(req,res)=>{
     const {blogtitle,blogbody,blogby}=req.body;
-    const newblog=new Blogs({blogheading:blogtitle,blogbody:blogbody,blogby:blogby});
-    newblog.save((err)=>{
+    Blogs.findOne({blogheading:blogtitle},(err,bdata)=>{
         if(err){
             console.log(err);
         }
+        else if(bdata){
+            console.log(bdata);
+            res.send({message:"Title is in use"});
+        }
         else{
-            res.send({message:"our blog has been created successfully",newblog:newblog});
+            const newblog=new Blogs({blogheading:blogtitle,blogbody:blogbody,blogby:blogby});
+            newblog.save((err)=>{
+            if(err){
+               console.log(err);
+            }
+            else{
+                res.send({message:"Your blog has been created successfully",newblog:newblog});
+            }
+            })
         }
     })
+    
 });
 
 app.get("/Homepage2",(req,res)=>{
@@ -286,11 +297,13 @@ app.post("/ReadComment",(req,res)=>{
 
 app.post("/deleteanswer",(req,res)=>{
     const {qid,answer,answerby}=req.body;
-    QuestionsCollection.findByIdAndUpdate(qid,{$pull:{answers:{answer:answer,answerby:answerby}}},(err,qdata)=>{
+    console.log(req.body);
+    QuestionsCollection.findByIdAndUpdate(qid,{$pull:{answers:{answer:answer,answerby:answerby._id}}},(err,qdata)=>{
         if(err){
             console.log(err);
         }else{
             console.log("deleted successfully");
+            console.log(qdata);
             res.send({message:"Deleted successfully"});
         }
     })
@@ -306,6 +319,19 @@ app.get("/userprofile",(req,res)=>{
             res.send({userprofiledata:userprofiledata});
         }
     }).populate('userid','name');
+})
+
+app.get("/DeleteMyBlog",(req,res)=>{
+    const uid=req.query.uid;
+    console.log(uid);
+    Blogs.deleteOne({blogby:uid},(err,deletedata)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log(deletedata);
+            res.send({message:"Your blog has been deleted successfully"});
+        }
+    })
 })
 
 app.post("/userprofileupdate",(req,res)=>{

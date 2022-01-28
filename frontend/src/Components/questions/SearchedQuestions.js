@@ -10,8 +10,8 @@ const SearchedQuestions  = () =>{
         <>
         <Navbar/>
            <div>
-               {
-                   searchArray.map((val,index)=>{
+               {    searchArray.length===0?<h3 className="text-center mt-5">Sorry! We couldn't find any questions related to your search</h3>
+                   :searchArray.map((val,index)=>{
                        return(
                            <DisplayAnswer
                            pval={val}

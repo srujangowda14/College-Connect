@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 const DisplayAnswer = (props) =>{
@@ -11,6 +10,7 @@ const DisplayAnswer = (props) =>{
     const d=dateofq.toLocaleString({timezone:"+05:30"});
     const navigate=useNavigate();
     const gotoanswerpage = () =>{
+        console.log(qid);
         navigate("/SingleQuestion",{state:{pqid:qid,pques:ques,pquesd:quesd,pquest:quest}});
     }
     return(

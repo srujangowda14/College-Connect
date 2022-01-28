@@ -2,7 +2,7 @@ import React from "react";
 import { useState,useEffect } from "react";
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DisplayAnswer from "../answers/DisplayAnswer";
@@ -57,7 +57,8 @@ const Homepage = () =>{
       });
     }
 
-    const gosearch = () =>{
+    const gosearch = (event) =>{
+      event.preventDefault();
       axios.post("http://localhost:6969/Homepage3",searchText)
       .then((res)=>{
            navigate("/SearchedQuestions",{state:{searchdata:res.data.searchdata}});
@@ -68,9 +69,12 @@ const Homepage = () =>{
          <>
            <Navbar/> 
            <div className="homepage_below_navbar_search">
-                <input className="form-control ms-5" 
-                type="search" placeholder="Search" aria-label="Search" name="stext" value={searchText.stext} onChange={updateSearchText}/>
-                <button className="searchbutton" type="submit" onClick={gosearch}>Search</button>
+                <form onSubmit={gosearch} className="d-flex flex-row justify-content-space-between w-75">
+                    <input className="form-control w-100 search_style" 
+                    type="search" placeholder="Search" aria-label="Search" name="stext" value={searchText.stext} onChange={updateSearchText}  minlength="4" required/>
+                    <button className="searchbutton" type="submit">Search</button>
+                </form>
+                
            </div>
             
            <div className="homepage_below_navbar">

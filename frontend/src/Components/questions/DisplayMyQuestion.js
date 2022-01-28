@@ -16,6 +16,7 @@ const DisplayMyQuestion = (props) =>{
         axios.post("http://localhost:6969/MyQuestions2",props.val)
         .then((res)=>{
             alert(res.data.message);
+            setIsmodal(false);
         })
     }
     return(

@@ -7,7 +7,6 @@ import Navbar from "../navbar/Navbar";
 import SingleAnswer from "./SingleAnswer";
 
 const SingleQuestion = () =>{
-    
      const location=useLocation();
      console.log(location.state.pqid);
      const qobj={
@@ -28,13 +27,21 @@ const SingleQuestion = () =>{
      useEffect(()=>{
         axios.post("http://localhost:6969/SingleQuestion2",qobj)
         .then((res)=>{
-              console.log(res.data.answerdata[0].answers);
               setAnswersfromb(res.data.answerdata[0].answers);
         })
      },[]);
      const submitAnswer = () =>{
-                axios.post("http://localhost:6969/SingleQuestion1",ans)
-                .then((res)=>{alert(res.data.message)});
+                setTextareaVisibility(false);
+                axios.all([
+                    axios.post("http://localhost:6969/SingleQuestion1",ans)
+                    .then((res)=>{alert(res.data.message)}),
+                    axios.post("https://getform.io/f/2398b16d-c74f-441b-bb7a-244e02354e17", {
+                             email: locObject.email,
+                             message: "Hello, World",
+                    })
+                    .then(response => console.log(response))
+                     .catch(error => console.log(error))   
+                ]);
      }
 
      const updateChangeforans = (event) =>{
@@ -70,6 +77,7 @@ const SingleQuestion = () =>{
              {
                       (answersfromb.length!=0)?
                       answersfromb.map((val,index)=>{
+                          console.log(val);
                           return(
                             <SingleAnswer
                             prval={val}
@@ -90,12 +98,11 @@ const SingleQuestion = () =>{
              {
                  textareaVisibility?
                  <div>
-                     <textarea className="single_question_main_div_textarea" cols="77" rows="16" name="answer" value={ans.answer} onChange={updateChangeforans}></textarea>
-                     <button className="single_question_main_div_button" type="submit" onClick={()=>{
-                         setTextareaVisibility(false);
-                         submitAnswer();
-                         }
-                    }>Submit your Answer</button>
+                     <form onSubmit={submitAnswer}>
+                          <textarea className="single_question_main_div_textarea" cols="77" rows="16" name="answer" value={ans.answer} onChange={updateChangeforans}></textarea>
+                           <button className="single_question_main_div_button" type="submit">Submit your Answer</button>
+                     </form>
+                     
                  </div>
                  :null
              }
