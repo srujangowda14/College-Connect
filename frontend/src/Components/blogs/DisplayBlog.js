@@ -5,7 +5,6 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faComments} from '@fortawesome/free-solid-svg-icons'
 
 const DisplayBlog = (props) =>{
-  const toggle=false;
   const lo=localStorage.getItem("user");
   const locobj=JSON.parse(lo);
   const [isLike,setIsLike]=useState(true);
@@ -23,7 +22,7 @@ const DisplayBlog = (props) =>{
      //   let url=`http://localhost:6969/DisplayBlogNoofLike?bid=${bdata.bid}&uid=${bdata.uid}`;
        axios.post("http://localhost:6969/DisplayBlogNoofLike",bdata)
        .then((res)=>{
-            if(res.data.likedalready==true){
+            if(res.data.likedalready===true){
                  console.log("hi1"); 
                  console.log(bdata.bid);
                  setIsLike(false);
@@ -50,10 +49,13 @@ const DisplayBlog = (props) =>{
   }
   const addComment = () =>{
          setISComment(false);
-         axios.post("http://localhost:6969/DisplayBlogComment",bdata)
-         .then((res)=>{
-              setComments(res.data.commentdata);
-         })
+         console.log("Hi dosto");
+         if(bdata.comment.length>=1){
+              axios.post("http://localhost:6969/DisplayBlogComment",bdata)
+              .then((res)=>{
+                  setComments(res.data.commentdata);
+          })
+         }
   }
 
   const updateChangeInComment = (event) =>{

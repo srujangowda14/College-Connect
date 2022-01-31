@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "axios": "^0.24.0",
+    "gh": "^2.8.9",
+    "pages": "^0.0.16",
     "react-router-dom": "^6.2.1"
   }
 }

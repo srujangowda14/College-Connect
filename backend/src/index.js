@@ -355,6 +355,12 @@ app.post("/deleteuser",(req,res)=>{
     UserProfiles.deleteOne({userid:_id},(err)=>{
         console.log("up deleted");
     })
+    QuestionsCollection.deleteOne({questionby:_id},(err)=>{
+        console.log("Question also deleted");
+    })
+    Blogs.deleteOne({blogby:_id},(err)=>{
+        console.log("Blog also deleted");
+    })
     User.deleteOne({email:email},(err)=>{
         res.send({message:"Your account has been deleted. Sorry to let you go"});
     })
